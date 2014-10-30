@@ -24,7 +24,7 @@ public class SudokuSolver
 		}
 		else
 		{
-			System.out.println("What sorcery is this !!");
+			System.out.println("What sorcery is this ?");
 			System.out.println("This sudoku is not solvable. Trying to check my correctness ?");
 			System.out.println("Ahh!! You douchebag !!");
 		}
