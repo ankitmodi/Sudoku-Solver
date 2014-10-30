@@ -1,11 +1,10 @@
-import java.util.*;
 public class SudokuSolver 
 {
 
 	public static void main(String[] args) 
 	{
-		int[][] inputSudoku = 
-				{{3, 0, 6, 5, 0, 8, 4, 0, 0},
+		int[][] inputSudoku = {
+				{3, 0, 6, 5, 0, 8, 4, 0, 0},
                 {5, 2, 0, 0, 0, 0, 0, 0, 0},
                 {0, 8, 7, 0, 0, 0, 0, 3, 1},
                 {0, 0, 3, 0, 1, 0, 0, 8, 0},
@@ -13,7 +12,8 @@ public class SudokuSolver
                 {0, 5, 0, 0, 9, 0, 6, 0, 0},
                 {1, 3, 0, 0, 0, 0, 2, 5, 0},
                 {0, 0, 0, 0, 0, 0, 0, 7, 4},
-                {0, 0, 5, 2, 0, 6, 3, 0, 0}};
+                {0, 0, 5, 2, 0, 6, 3, 0, 0}
+                };
 		
 		int[][] outputSudoku = inputSudoku;
 		
@@ -207,7 +207,6 @@ public class SudokuSolver
         boolean res = true;
         
         boolean[] check = new boolean[9];
-        Arrays.fill(check, false);
         for(int i=row; i<row+3; i++)
         {
             for(int j=col; j<col+3; j++)
@@ -243,7 +242,6 @@ public class SudokuSolver
         
         int col = board[0].length;
         boolean[] check = new boolean[9];
-        Arrays.fill(check, false);
         for(int i=0; i<col; i++)
         {
             if(board[row][i] == 0)
@@ -271,7 +269,6 @@ public class SudokuSolver
         
         int row = board.length;
         boolean[] check = new boolean[9];
-        Arrays.fill(check, false);
         for(int i=0; i<row; i++)
         {
             if(board[i][col] == 0)
