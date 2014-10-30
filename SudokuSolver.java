@@ -16,7 +16,22 @@ public class SudokuSolver
                 {0, 0, 5, 2, 0, 6, 3, 0, 0}};
 		
 		int[][] outputSudoku = inputSudoku;
+		
+		boolean result = true;
 		if(sudokuSolver(outputSudoku))
+		{
+			if(!isValidSudoku(outputSudoku))
+			{
+				result = false;
+			}
+			
+		}
+		else
+		{
+			result = false;
+		}
+		
+		if(result)
 		{
 			System.out.println("Yay! Solved it :-)\n");
 			print(outputSudoku);
@@ -32,34 +47,30 @@ public class SudokuSolver
 	
 	private static boolean sudokuSolver(int[][] outputSudoku)
 	{
-		int row=0, col =0;
-		
 		String tmp = FindNextEmptyCell(outputSudoku);
 		if(tmp.isEmpty())
 		{
 			return true;
 		}
-		else
+		
+		String[] parts = tmp.split("and");
+		int row = Integer.parseInt(parts[0]);
+		int col = Integer.parseInt(parts[1]);
+		
+		for(int num=1; num<=9; num++)
 		{
-			String[] parts = tmp.split("and");
-			row = Integer.parseInt(parts[0]);
-			col = Integer.parseInt(parts[1]);
-			
-			for(int num=1; num<=9; num++)
+			if(isValid(outputSudoku, row, col, num))
 			{
-				if(isValid(outputSudoku, row, col, num))
+				outputSudoku[row][col] = num;
+				if(sudokuSolver(outputSudoku))
 				{
-					outputSudoku[row][col] = num;
-					if(sudokuSolver(outputSudoku))
-					{
-						return true;
-					}
-					outputSudoku[row][col] = num;
+					return true;
 				}
+				outputSudoku[row][col] = 0;
 			}
-			
-			return false;
 		}
+		
+		return false;
 	}
 
 
@@ -68,9 +79,9 @@ public class SudokuSolver
 	{
 		String result = "";
 		
-		for(int row=0; row< outputSudoku.length; row++)
+		for(int row=0; row< 9; row++)
 		{
-			for(int col=0; col< outputSudoku[0].length; col++)
+			for(int col=0; col< 9; col++)
 			{
 				if(outputSudoku[row][col]==0)
 				{
@@ -87,8 +98,8 @@ public class SudokuSolver
 	
 	private static boolean isValid(int[][] outputSudoku, int row, int col, int num) 
 	{
-		return !AlreadyInRow(outputSudoku, row, num) ||
-				!AlreadyInCol(outputSudoku, col, num) ||
+		return !AlreadyInRow(outputSudoku, row, num) &&
+				!AlreadyInCol(outputSudoku, col, num) &&
 				!AlreadyInBox(outputSudoku, row, col, num);
 	}
 
@@ -96,7 +107,7 @@ public class SudokuSolver
 
 	private static boolean AlreadyInRow(int[][] outputSudoku, int row, int num)
 	{
-		for(int col=0; col<outputSudoku[0].length; col++)
+		for(int col=0; col<9; col++)
 		{
 			if(outputSudoku[row][col] == num)
 			{
@@ -111,7 +122,7 @@ public class SudokuSolver
 
 	private static boolean AlreadyInCol(int[][] outputSudoku, int col, int num) 
 	{
-		for(int row=0; row<outputSudoku.length; row++)
+		for(int row=0; row<9; row++)
 		{
 			if(outputSudoku[row][col] == num)
 			{
@@ -157,5 +168,129 @@ public class SudokuSolver
 		}
 		
 	}
+	
+	
+	private static boolean isValidSudoku(int[][] board) 
+    {
+        
+         if (board==null|| board.length!=9 || board[0].length!=9)
+         {
+             return false;
+         }
+        boolean res = true;
+        
+        for(int i =0; i<9; i++)
+        {
+            if(!checkRow(board, i))
+            {
+                res = false;
+                break;
+            }
+            if(!checkCol(board, i))
+            {
+                res = false;
+                break;
+            }
+            if(!checkBox(board, 3*(i/3), 3*(i%3)))
+            {
+                res = false;
+                break;
+            }
+        }
+        
+        return res;
+    }
+    
+    
+	private static boolean checkBox(int[][] board, int row, int col)
+    {
+        boolean res = true;
+        
+        boolean[] check = new boolean[9];
+        Arrays.fill(check, false);
+        for(int i=row; i<row+3; i++)
+        {
+            for(int j=col; j<col+3; j++)
+            {
+                if(board[i][j] == 0)
+                {
+                    continue;
+                }
+                int val = board[i][j];
+                if(!check[val-1])
+                {
+                    check[val-1] = true;
+                }
+                else
+                {
+                    res = false;
+                    break;
+                }
+                
+            }
+            if(!res)
+                {
+                    break;
+                }
+            
+        }
+        return res;
+    }
+    
+	private static boolean checkRow(int[][] board, int row)
+    {
+        boolean res = true;
+        
+        int col = board[0].length;
+        boolean[] check = new boolean[9];
+        Arrays.fill(check, false);
+        for(int i=0; i<col; i++)
+        {
+            if(board[row][i] == 0)
+            {
+                continue;
+            }
+            int val = board[row][i];
+            if(!check[val-1])
+            {
+                check[val-1] = true;
+            }
+            else
+            {
+                res = false;
+                break;
+            }
+        }
+        return res;
+    }
+    
+    
+	private static boolean checkCol(int[][] board, int col)
+    {
+        boolean res = true;
+        
+        int row = board.length;
+        boolean[] check = new boolean[9];
+        Arrays.fill(check, false);
+        for(int i=0; i<row; i++)
+        {
+            if(board[i][col] == 0)
+            {
+                continue;
+            }
+            int val = board[i][col];
+            
+            if(!check[val-1])
+            {
+                check[val-1] = true;
+            }
+            else
+            {
+                res = false;
+                break;
+            }
+        }
+        return res;
+    }
 
 }
