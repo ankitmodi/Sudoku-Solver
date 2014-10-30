@@ -87,8 +87,8 @@ public class SudokuSolver
 	private static boolean isValid(int[][] outputSudoku, int row, int col, int num) 
 	{
 		return !AlreadyInRow(outputSudoku, row, num) &&
-				!AlreadyInCol(outputSudoku, col, num) &&
-				!AlreadyInBox(outputSudoku, row, col, num);
+			!AlreadyInCol(outputSudoku, col, num) &&
+			!AlreadyInBox(outputSudoku, row, col, num);
 	}
 
 
